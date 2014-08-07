@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using MvcApplication1.Models;
 using System.Net.Http;
+using WebMatrix.WebData;
 namespace MvcApplication1.Controllers
 {
     public class HomeController : Controller
@@ -12,13 +13,21 @@ namespace MvcApplication1.Controllers
         private RegistrationContext db = new RegistrationContext();
         public ActionResult Index()
         {
-            ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
-
-            return View();
+            if (User.Identity.IsAuthenticated)
+            {
+                return View();
+            }
+            else
+            {
+                return Redirect("/Account/Login");
+            }
+            
         }
+
         public ActionResult registrations()
         {
-            return Json(db.Registrations.ToList(), JsonRequestBehavior.AllowGet);
+            string current_username = User.Identity.Name;
+            return Json(db.Registrations.Where(r => r.username == current_username).ToList(), JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
@@ -29,6 +38,7 @@ namespace MvcApplication1.Controllers
                 salutation = salutation,
                 age = Convert.ToInt32(age),
                 name = name,
+                username = User.Identity.Name
             };
 
             db.Registrations.Add(r);

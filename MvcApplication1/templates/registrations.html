@@ -1,22 +1,24 @@
-﻿<h1>Registration Sample</h1>
+﻿<div ng-show="registrations_flag">
+    <h1>Registered Users</h1>
 
-<button type="button" class="btn btn-primary" ng-click="refresh()">Refresh</button>
+    <!--<button type="button" class="btn btn-primary" ng-click="refresh()" id="refresh_button">Refresh</button>-->
 
-<table class="table" style="max-width: 300px;">
-    <thead>
-        <tr>
-            <th>Salutation</th>
-            <th>Name</th>
-            <th>Age</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr ng-repeat="reg in registrations">
-            <td>{{reg.salutation}}</td>
-            <td>{{reg.name}}</td>
-            <td>{{reg.age}}</td>
-        </tr>
-    </tbody>
-</table>
+    <table class="table" style="max-width: 300px;">
+        <thead>
+            <tr>
+                <th>Salutation</th>
+                <th>Name</th>
+                <th>Age</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="reg in registrations">
+                <td>{{reg.salutation}}</td>
+                <td>{{reg.name}}</td>
+                <td>{{reg.age}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<p>Do you want to <a href="#register">Register a New User</a>?</p>
 
-<p>Do you want to <a href="#register">register</a>?</p>

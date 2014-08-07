@@ -12,10 +12,18 @@ namespace MvcApplication1.Models
          public string salutation { get; set; }
          public string name { get; set; }
          public int age { get; set; }
+         public string username { get; set; }
+    }
+    public class Expenses
+    {
+        public int ID { get; set; }
+        public float number { get; set; }
+        public string[] shared_by;
+        public DateTime date;
     }
     public class RegistrationContext : DbContext
     {
         public DbSet<Registrations> Registrations { get; set; }
-
+        public DbSet<Expenses> Expenses { get; set; }
     }
 }
