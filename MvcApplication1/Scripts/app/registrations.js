@@ -48,9 +48,9 @@ var RegisterViewModel = (function () {
         $scope.save = function () {
             $http.post("/Home/register", { name: $scope.name, salutation: $scope.salutation, age: $scope.age }, { headers: { "Content-Type": "application/json" } }).success(function (_) {
                 alert("Registered Successfully");
-                $scope.name = "";
+                $scope.name = null;
                 $scope.age = null;
-                $scope.salutation = "";
+                $scope.salutation = null;
             }).error(function (_) {
                 alert("Sorry! Something went wrong!");
             });
@@ -64,28 +64,39 @@ var Expense = (function () {
         this.amount = Expense.amount;
         this.shared_by = Expense.shared_by;
         this.date = Expense.date;
+        this.description = Expense.description;
     }
     return Expense;
+})();
+
+var User = (function () {
+    function User(User) {
+        this.name = User.name;
+        this.id = User.id;
+    }
+    return User;
 })();
 
 var ExpensesViewModel = (function () {
     function ExpensesViewModel($scope, $http, logger) {
         this.logger = logger;
-        $scope.expenses = new Array();
         $scope.refresh = function () {
             logger.log("Requesting...");
             $http.get("/Home/expenses").success(function (expenses) {
+                console.log(expenses);
                 $scope.expenses = [];
                 if (expenses.length == 0) {
                     $scope.expenses_flag = false;
                 } else {
                     $scope.expenses_flag = true;
                 }
+                $scope.expenses = new Array();
                 expenses.forEach(function (r) {
                     return $scope.expenses.push(r);
                 });
             });
         };
+        $scope.expenses = new Array();
         $scope.refresh();
     }
     return ExpensesViewModel;
@@ -93,12 +104,25 @@ var ExpensesViewModel = (function () {
 var ExpenseViewModel = (function () {
     function ExpenseViewModel($scope, $http, logger) {
         this.logger = logger;
+        $scope.users = new Array();
+        $http.get("/Home/users").success(function (users) {
+            if (users.length == 0) {
+                $scope.users_flag = false;
+            } else {
+                $scope.users_flag = true;
+            }
+            users.forEach(function (r) {
+                return $scope.users.push(r);
+            });
+        });
+        console.log($scope.users);
         $scope.save = function () {
-            $http.post("/Home/register", { name: $scope.name, salutation: $scope.salutation, age: $scope.age }, { headers: { "Content-Type": "application/json" } }).success(function (_) {
-                alert("Registered Successfully");
-                $scope.name = "";
-                $scope.age = null;
-                $scope.salutation = "";
+            $http.post("/Home/expense", { amount: $scope.amount, shared_by: $scope.shared_by, date: $scope.date, description: $scope.description }, { headers: { "Content-Type": "application/json" } }).success(function (_) {
+                alert("Saved Successfully");
+                $scope.amount = null;
+                $scope.shared_by = null;
+                $scope.date = null;
+                $scope.description = null;
             }).error(function (_) {
                 alert("Sorry! Something went wrong!");
             });
