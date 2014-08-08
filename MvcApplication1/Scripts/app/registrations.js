@@ -22,6 +22,11 @@ var Registration = (function () {
 var RegistrationsViewModel = (function () {
     function RegistrationsViewModel($scope, $http, logger) {
         this.logger = logger;
+        $scope.delete_record = function (record_id) {
+            $http.get("/Home/delete_r?id=".concat(record_id)).success(function (data) {
+                $scope.refresh();
+            });
+        };
         $scope.registrations = new Array();
         $scope.refresh = function () {
             logger.log("Requesting...");
@@ -45,6 +50,7 @@ var RegistrationsViewModel = (function () {
 var RegisterViewModel = (function () {
     function RegisterViewModel($scope, $http, logger) {
         this.logger = logger;
+        $scope.salutation = "Mr.";
         $scope.save = function () {
             $http.post("/Home/register", { name: $scope.name, salutation: $scope.salutation, age: $scope.age }, { headers: { "Content-Type": "application/json" } }).success(function (_) {
                 alert("Registered Successfully");
@@ -65,6 +71,7 @@ var Expense = (function () {
         this.shared_by = Expense.shared_by;
         this.date = Expense.date;
         this.description = Expense.description;
+        this.paid_by = Expense.paid_by;
     }
     return Expense;
 })();
@@ -80,6 +87,12 @@ var User = (function () {
 var ExpensesViewModel = (function () {
     function ExpensesViewModel($scope, $http, logger) {
         this.logger = logger;
+        $scope.delete_record = function (record_id) {
+            console.log(record_id);
+            $http.get("/Home/delete_e?id=".concat(record_id)).success(function (data) {
+                $scope.refresh();
+            });
+        };
         $scope.refresh = function () {
             logger.log("Requesting...");
             $http.get("/Home/expenses").success(function (expenses) {
@@ -104,6 +117,7 @@ var ExpensesViewModel = (function () {
 var ExpenseViewModel = (function () {
     function ExpenseViewModel($scope, $http, logger) {
         this.logger = logger;
+        $scope.paid_by = "me";
         $scope.users = new Array();
         $http.get("/Home/users").success(function (users) {
             if (users.length == 0) {
@@ -118,7 +132,7 @@ var ExpenseViewModel = (function () {
         console.log($scope.users);
         $scope.save = function () {
             //console.log($scope.shared_by[0]);
-            $http.post("/Home/expense", { amount: $scope.amount, shared_by: $scope.shared_by, date: $scope.date, description: $scope.description }, { headers: { "Content-Type": "application/json" } }).success(function (_) {
+            $http.post("/Home/expense", { amount: $scope.amount, shared_by: $scope.shared_by, date: $scope.date, description: $scope.description, paid_by: $scope.paid_by }, { headers: { "Content-Type": "application/json" } }).success(function (_) {
                 alert("Saved Successfully");
                 $scope.amount = null;
                 $scope.shared_by = null;

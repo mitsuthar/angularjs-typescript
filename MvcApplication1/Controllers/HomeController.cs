@@ -29,6 +29,18 @@ namespace MvcApplication1.Controllers
             string current_username = User.Identity.Name;
             return Json(db.Registrations.Where(r => r.username == current_username).ToList(), JsonRequestBehavior.AllowGet);
         }
+        [HttpGet]
+        public ActionResult delete_r(string id)
+        {
+            db.Registrations.Remove(db.Registrations.Find(Convert.ToInt32(id)));
+            return Json(null,JsonRequestBehavior.AllowGet);
+        }
+        [HttpGet]
+        public ActionResult delete_e(string id)
+        {
+            db.Expenses.Remove(db.Expenses.Find(id));
+            return Json(null,JsonRequestBehavior.AllowGet);
+        }
         public ActionResult expenses()
         {
             string current_username = User.Identity.Name;
@@ -55,7 +67,7 @@ namespace MvcApplication1.Controllers
             return Json(null, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
-        public ActionResult expense(string[] shared_by, string amount, string description)
+        public ActionResult expense(string[] shared_by, string amount, string description, string paid_by)
         {
             Expenses e = new Expenses
             {
@@ -63,7 +75,8 @@ namespace MvcApplication1.Controllers
                 amount = Convert.ToDecimal(amount),
                 shared_by = String.Join(",",shared_by),
                 username = User.Identity.Name,
-                edate = DateTime.Now.ToString("yyyy-mm-dd")
+                edate = DateTime.Now.ToString("yyyy-mm-dd"),
+                paid_by = paid_by
             };
 
             db.Expenses.Add(e);

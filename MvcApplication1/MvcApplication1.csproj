@@ -205,6 +205,10 @@
     <Compile Include="Migrations\201408081029167_removed array.Designer.cs">
       <DependentUpon>201408081029167_removed array.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201408081054223_added paid by.cs" />
+    <Compile Include="Migrations\201408081054223_added paid by.Designer.cs">
+      <DependentUpon>201408081054223_added paid by.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\Registrations.cs" />
@@ -677,6 +681,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201408081029167_removed array.resx">
       <DependentUpon>201408081029167_removed array.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201408081054223_added paid by.resx">
+      <DependentUpon>201408081054223_added paid by.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -33,10 +33,17 @@ interface IRegistrationsViewModel extends ng.IScope {
     registrations: Array<IRegistration>;
     registrations_flag: any;
     refresh: () => void;
+    delete_record: (record_id: string) => void;
 }
 
 class RegistrationsViewModel {
     constructor($scope: IRegistrationsViewModel, $http: ng.IHttpService, private logger: ILogger) {
+        $scope.delete_record = (record_id: string) => {
+            $http.get<Array<IExpense>>("/Home/delete_r?id=".concat(record_id))
+                .success(function (data) {
+                    $scope.refresh();
+                });
+        }
         $scope.registrations = new Array<IRegistration>();
         $scope.refresh = () => {
             logger.log("Requesting...");
@@ -63,6 +70,7 @@ interface IRegisterViewModel extends ng.IScope, IRegistration {
 
 class RegisterViewModel {
     constructor($scope: IRegisterViewModel, $http: ng.IHttpService, private logger: ILogger) {
+        $scope.salutation = "Mr.";
         $scope.save = () => {
             $http.post("/Home/register", { name: $scope.name, salutation: $scope.salutation, age: $scope.age }, { headers: { "Content-Type": "application/json" } })
                 .success(_ => {
@@ -82,6 +90,7 @@ interface IExpense {
     shared_by: Array<string>;
     description: string;
     date: any;
+    paid_by: string;
 }
 
 interface IUser {
@@ -94,11 +103,13 @@ class Expense {
     public shared_by: Array<string>;
     public date: any;
     public description: string;
+    public paid_by: string;
     constructor(Expense: IExpense) {
         this.amount = Expense.amount;
         this.shared_by = Expense.shared_by;
         this.date = Expense.date;
         this.description = Expense.description;
+        this.paid_by = Expense.paid_by;
     }
 }
 
@@ -119,12 +130,19 @@ interface IExpensesViewModel extends ng.IScope {
     expenses: Array<IExpense>;
     expenses_flag: any;
     refresh: () => void;
+    delete_record: (record_id: string) => void;
    
 }
 
 class ExpensesViewModel {
     constructor($scope: IExpensesViewModel, $http: ng.IHttpService, private logger: ILogger) {
-        
+        $scope.delete_record = (record_id: string) => {
+            console.log(record_id);
+            $http.get<Array<IExpense>>("/Home/delete_e?id=".concat(record_id))
+                .success(function(data) {
+                    $scope.refresh();
+                });
+        }
         $scope.refresh = () => {
             logger.log("Requesting...");
             $http.get<Array<IExpense>>("/Home/expenses")
@@ -148,6 +166,7 @@ class ExpensesViewModel {
 }
 class ExpenseViewModel {
     constructor($scope: IExpenseViewModel, $http: ng.IHttpService, private logger: ILogger) {
+        $scope.paid_by = "me";
         $scope.users = new Array<IUser>();
         $http.get<Array<IUser>>("/Home/users")
             .success(users => {
@@ -162,7 +181,7 @@ class ExpenseViewModel {
         console.log($scope.users);
         $scope.save = () => {
             //console.log($scope.shared_by[0]);
-            $http.post("/Home/expense", { amount: $scope.amount, shared_by: $scope.shared_by, date: $scope.date, description: $scope.description }, { headers: { "Content-Type": "application/json" } })
+            $http.post("/Home/expense", { amount: $scope.amount, shared_by: $scope.shared_by, date: $scope.date, description: $scope.description, paid_by: $scope.paid_by}, { headers: { "Content-Type": "application/json" } })
                 .success(_ => {
                     alert("Saved Successfully");
                     $scope.amount = null;

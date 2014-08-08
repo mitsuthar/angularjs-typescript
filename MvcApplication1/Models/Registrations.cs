@@ -21,6 +21,7 @@ namespace MvcApplication1.Models
         public string description { get; set; } 
         public string shared_by {get; set;} 
         public string edate {get; set;}
+        public string paid_by { get; set; }
         public string username { get; set; }
     }
     public class RegistrationContext : DbContext
