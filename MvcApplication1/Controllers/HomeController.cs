@@ -61,7 +61,7 @@ namespace MvcApplication1.Controllers
             {
                 description = description,
                 amount = Convert.ToDecimal(amount),
-                shared_by = shared_by,
+                shared_by = String.Join(",",shared_by),
                 username = User.Identity.Name,
                 edate = DateTime.Now.ToString("yyyy-mm-dd")
             };

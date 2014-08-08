@@ -161,7 +161,7 @@ class ExpenseViewModel {
             });
         console.log($scope.users);
         $scope.save = () => {
-
+            //console.log($scope.shared_by[0]);
             $http.post("/Home/expense", { amount: $scope.amount, shared_by: $scope.shared_by, date: $scope.date, description: $scope.description }, { headers: { "Content-Type": "application/json" } })
                 .success(_ => {
                     alert("Saved Successfully");

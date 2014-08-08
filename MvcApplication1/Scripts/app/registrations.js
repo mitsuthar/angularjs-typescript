@@ -117,6 +117,7 @@ var ExpenseViewModel = (function () {
         });
         console.log($scope.users);
         $scope.save = function () {
+            //console.log($scope.shared_by[0]);
             $http.post("/Home/expense", { amount: $scope.amount, shared_by: $scope.shared_by, date: $scope.date, description: $scope.description }, { headers: { "Content-Type": "application/json" } }).success(function (_) {
                 alert("Saved Successfully");
                 $scope.amount = null;

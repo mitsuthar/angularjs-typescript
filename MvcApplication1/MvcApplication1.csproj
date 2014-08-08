@@ -189,6 +189,23 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201408071217232_InitialCreate.cs" />
+    <Compile Include="Migrations\201408071217232_InitialCreate.Designer.cs">
+      <DependentUpon>201408071217232_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201408071231028_init.cs" />
+    <Compile Include="Migrations\201408071231028_init.Designer.cs">
+      <DependentUpon>201408071231028_init.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201408081023166_get set added.cs" />
+    <Compile Include="Migrations\201408081023166_get set added.Designer.cs">
+      <DependentUpon>201408081023166_get set added.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201408081029167_removed array.cs" />
+    <Compile Include="Migrations\201408081029167_removed array.Designer.cs">
+      <DependentUpon>201408081029167_removed array.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\Registrations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -647,6 +664,20 @@
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-scenario.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201408071217232_InitialCreate.resx">
+      <DependentUpon>201408071217232_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201408071231028_init.resx">
+      <DependentUpon>201408071231028_init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201408081023166_get set added.resx">
+      <DependentUpon>201408081023166_get set added.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201408081029167_removed array.resx">
+      <DependentUpon>201408081029167_removed array.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
