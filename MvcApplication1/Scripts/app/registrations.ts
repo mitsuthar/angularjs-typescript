@@ -195,3 +195,50 @@ class ExpenseViewModel {
     }
   
 }
+interface IInvoice {
+    users: Array<IUser>;
+    amounts: Array<Number>;
+    amounts_p: Array<Number>;
+}
+
+interface IInvoiceViewModel extends ng.IScope, IInvoice {
+    users_flag: any;
+    invoices_flag: any;
+    refresh: () => void;
+}
+
+class InvoiceViewModel {
+    constructor($scope: IInvoiceViewModel, $http: ng.IHttpService, private logger: ILogger) {
+        $scope.users = new Array<IUser>();
+        $scope.refresh = () => {
+            $http.get("/Home/invoice")
+                .success(invoices => {
+                    console.log(invoices);
+                    $scope.amounts = [];
+                    if (!invoices) {
+                        $scope.invoices_flag = false;
+                        $scope.users_flag = false;
+                    }
+                    else {
+
+                        if (invoices['amounts'].length == 0) {
+                            $scope.invoices_flag = false;
+                        }
+                        else {
+                            $scope.invoices_flag = true;
+                        }
+                        if (invoices['users'].length == 0) {
+                            $scope.users_flag = false;
+                        }
+                        else {
+                            $scope.users_flag = true;
+                        }
+                        $scope.amounts = invoices['amounts'];
+                        $scope.amounts_p = invoices['amounts_p'];
+                        $scope.users = invoices['users'];
+                    }
+                });
+        }
+        $scope.refresh();
+    }
+}

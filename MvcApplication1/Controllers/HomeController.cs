@@ -23,7 +23,7 @@ namespace MvcApplication1.Controllers
             }
             
         }
-
+       
         public ActionResult registrations()
         {
             string current_username = User.Identity.Name;
@@ -52,6 +52,45 @@ namespace MvcApplication1.Controllers
         {
             string current_username = User.Identity.Name;
             return Json(db.Registrations.Where(r => r.username == current_username).Select(s => s.name).ToList(), JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult invoice()
+        {
+            string current_username = User.Identity.Name;
+            var _users = db.Registrations.Where(r => r.username == current_username).Select(s => s.name).ToList();
+            _users.Add("me");
+            var users = _users.ToArray();
+            var expenses = db.Expenses.Where(r => r.username == current_username).ToList();
+            float[] amounts = new float[users.Length];
+            float[] amounts_p = new float[users.Length];
+            Array.Clear(amounts,0,amounts.Length);
+            for(var counter = 0; counter < expenses.Count; counter ++)
+            {
+                var shared_by = expenses[counter].shared_by;
+                string[] s_users = shared_by.Split(',');
+                float s_amount = (float)Math.Round((decimal)expenses[counter].amount/s_users.Length);
+                try
+                {
+                    int _index = Array.IndexOf(users, expenses[counter].paid_by.Trim());
+                    amounts_p[_index] = amounts_p[_index] + (float)Math.Round((decimal)expenses[counter].amount,2);
+                }
+                catch
+                {
+                    return Json(null, JsonRequestBehavior.AllowGet);
+                }
+                foreach(string user in s_users)
+                {
+                    try
+                    {
+                        int index = Array.IndexOf(users, user.Trim());
+                        amounts[index] = amounts[index] + s_amount;
+                    }
+                    catch
+                    {
+                        return Json(null, JsonRequestBehavior.AllowGet);
+                    }
+                }
+            }
+            return Json(new {users=users,amounts=amounts,amounts_p=amounts_p}, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
         public ActionResult register(string name, string salutation, string age)

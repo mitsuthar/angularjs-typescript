@@ -1,0 +1,27 @@
+﻿<div ng-show="invoices_flag">
+    <h1>Invoice For Uncleared Expenses</h1>
+
+    <!--<button type="button" class="btn btn-primary" ng-click="refresh()" id="refresh_button">Refresh</button>-->
+
+    <table class="table" style="max-width: 300px;">
+        <thead>
+            <tr>
+                <th>User</th>
+                <th>Total Expense</th>
+                <th>Paid Expense</th>
+                <th>Difference</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="amount in amounts track by $index">
+                <td>{{users[$index]}}</td>
+                <td>{{amount}}</td>
+                <td>{{amounts_p[$index]}}</td>
+                <td>{{amount - amounts_p[$index]}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div ng-hide="invoices_flag">
+    You have removed a user from registrations but user is there in the expenses. please add that user again! In the next version when you remove the user all the expenses recorded with that user will be gone!
+</div>

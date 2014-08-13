@@ -145,4 +145,37 @@ var ExpenseViewModel = (function () {
     }
     return ExpenseViewModel;
 })();
+
+var InvoiceViewModel = (function () {
+    function InvoiceViewModel($scope, $http, logger) {
+        this.logger = logger;
+        $scope.users = new Array();
+        $scope.refresh = function () {
+            $http.get("/Home/invoice").success(function (invoices) {
+                console.log(invoices);
+                $scope.amounts = [];
+                if (!invoices) {
+                    $scope.invoices_flag = false;
+                    $scope.users_flag = false;
+                } else {
+                    if (invoices['amounts'].length == 0) {
+                        $scope.invoices_flag = false;
+                    } else {
+                        $scope.invoices_flag = true;
+                    }
+                    if (invoices['users'].length == 0) {
+                        $scope.users_flag = false;
+                    } else {
+                        $scope.users_flag = true;
+                    }
+                    $scope.amounts = invoices['amounts'];
+                    $scope.amounts_p = invoices['amounts_p'];
+                    $scope.users = invoices['users'];
+                }
+            });
+        };
+        $scope.refresh();
+    }
+    return InvoiceViewModel;
+})();
 //# sourceMappingURL=registrations.js.map
