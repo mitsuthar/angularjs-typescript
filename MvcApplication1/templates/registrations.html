@@ -9,6 +9,7 @@
                 <th>Salutation</th>
                 <th>Name</th>
                 <th>Age</th>
+                <th>Delete?</th>
             </tr>
         </thead>
         <tbody>
@@ -16,6 +17,7 @@
                 <td>{{reg.salutation}}</td>
                 <td>{{reg.name}}</td>
                 <td>{{reg.age}}</td>
+                <td><a href="" ng-click="delete_record(reg.ID)">Delete</a></td>
             </tr>
         </tbody>
     </table>

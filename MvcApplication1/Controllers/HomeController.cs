@@ -33,12 +33,14 @@ namespace MvcApplication1.Controllers
         public ActionResult delete_r(string id)
         {
             db.Registrations.Remove(db.Registrations.Find(Convert.ToInt32(id)));
+            db.SaveChanges();
             return Json(null,JsonRequestBehavior.AllowGet);
         }
         [HttpGet]
         public ActionResult delete_e(string id)
         {
-            db.Expenses.Remove(db.Expenses.Find(id));
+            db.Expenses.Remove(db.Expenses.Find(Convert.ToInt32(id)));
+            db.SaveChanges();
             return Json(null,JsonRequestBehavior.AllowGet);
         }
         public ActionResult expenses()
